@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/layui.css">
+    <title>二维码生成识别</title>
+    <script src="../layui.js"></script>
+    <script src="../js/qrcode.min.js"></script>
+    <script src="../js/jimp.js"></script>
+    <script src="../js/jsqr.min.js"></script>
+    <script src="../js/base.js"></script>
+</head>
+<style>
+    .filebtn {
+        height: 36px;
+        width: 38px;
+        line-height: 38px;
+        border: 1px solid transparent;
+        padding: 0 18px;
+        color: #fff;
+        white-space: nowrap;
+        text-align: center;
+        font-size: 14px;
+        border-radius: 2px;
+        cursor: pointer;
+        background: #1E9FFF;
+        overflow: hidden;
+    }
+
+    .filebtn .file {
+        border: #1E9FFF 1px solid;
+        height: 38px;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        opacity: 0;
+
+    }
+    #fibtn{
+        cursor:pointer;
+    }
+</style>
+<body>
+    <div class="layui-container">
+        <div class="layui-row">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>二维码</legend>
+            </fieldset>
+
+            <form class="layui-form layui-form-pane" lay-filter="qrform" action="">
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">输入字符</label>
+                    <div class="layui-input-block">
+                        <textarea name="qrstr" placeholder="请输入" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-row">
+                        <div class="layui-col-md1">
+                            <button type="button" class="layui-btn layui-btn-normal" id="qrbtn">生成</button>
+                        </div>
+                        <!-- <button type="button" class="layui-btn layui-btn-normal" id="qrimg"><i
+                                class="layui-icon"></i>识别</button> -->
+                        <div class="layui-col-md1">
+                            <div class="filebtn" id="fibtn">
+                                识别
+                                <input type="file" class="file" id="qrfi" onchange="qrimgrez()">
+                            </div>
+                        </div>
+                        <div class="layui-col-md10"></div>
+                    </div>
+
+                </div>
+            </form>
+            <div class="layui-row">
+                <div class="layui-col-md6">
+                    <div class="layui-panel">
+                        <div style="padding: 30px;" id="seeqr">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row" id="qrimg1" style="display: none;">
+                    <div class="imgurl">
+                        <img id="imgurl" src="" alt="当前识别的二维码" />
+                    </div>
+                    <canvas class="qrcanvas" id="qrcanvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        layui.use(['form', 'layer', 'element'], function () {
+            var form = layui.form
+                , layer = layui.layer
+                // , layedit = layui.layedit
+                , layer = layui.layer
+                , element = layui.element;
+                // , colorpicker = layui.colorpicker
+                // , upload = layui.upload
+                // , laydate = layui.laydate;
+
+            var seeqr = document.getElementById('seeqr');
+            layui.$('#qrbtn').on('click', function () {
+                let qrdata = form.val('qrform');
+                seeqr.innerHTML = "";
+                qrsrc.style.display = "none";
+                if (qrdata['qrstr']) {
+                    let qrcd = new QRCode("seeqr", {
+                        text: qrdata['qrstr'],
+                        width: 300,
+                        height: 300,
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+                } else {
+                    layer.alert('请输入！', { icon: 5 });
+                }
+
+
+            })
+        })
+         // 识码
+         const qrim = document.querySelector("#seeqr");
+        const qrsrc = document.querySelector("#qrimg1");
+        const QrCode = new QrCodeRecognition({
+            sweepId: '#qrcanvas',
+            uploadId: '#qrfi',
+            error: function (err) {
+                // 识别错误反馈
+                qrim.innerHTML = err;
+            },
+            seuccess: function (res) {
+                // 识别成功反馈
+                qrim.innerHTML = res.data;
+            }
+        });
+        function qrimgrez() {
+            qrsrc.style.display = "none";
+            qrim.innerHTML = "";
+            QrCode.upload();
+        }
+        
+
+    </script>
+</body>
+
+</html>

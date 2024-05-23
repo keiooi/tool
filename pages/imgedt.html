@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/layui.css">
+    <title>图片处理</title>
+</head>
+<script src="../layui.js"></script>
+<body>
+    <div class="layui-container">
+        <div class="layui-row">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>图片处理</legend>
+            </fieldset>
+            <form class="layui-form" lay-filter="imgedtform" action="">
+                <div class="layui-form-item">
+                    
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button type="button" class="layui-btn" id="imgcovtbtn">图片转换</button>
+                        <button type="button" class="layui-btn" id="imgspbtn">图片拼接</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+layui.use(['form', 'layer', 'element'], function () {
+    var form = layui.form
+    , layer = layui.layer
+    layui.$('#imgcovtbtn').on('click', function () {
+        window.open("./convert.html");
+    })
+    layui.$('#imgspbtn').on('click', function () {
+        window.open("./splicing.html");
+    })
+})
+</script>
+</html>

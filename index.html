@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+	<link rel="stylesheet" href="./css/layui.css">
+	<title>Kei工具</title>
+</head>
+<style>
+	body {
+		padding: 30px;
+	}
+	
+	.lia {
+		margin-top: 30px;
+	}
+	
+	#see,
+	#seepy {
+		display: flex;
+		flex-direction: column;
+		word-break: break-all;
+		font-size: 1.2rem;
+	}
+	
+	#seeb64 {
+		display: flex;
+		flex-direction: column;
+		word-break: break-all;
+	}
+	/* #seeqr {
+        width: 200px;
+        height: 200px;
+    } */
+	
+	#color1,
+	#color2 {
+		margin-left: 20px;
+		width: 100px;
+		height: 100px;
+	}
+	
+	.filebtn {
+		height: 36px;
+		width: 38px;
+		line-height: 38px;
+		border: 1px solid transparent;
+		padding: 0 18px;
+		color: #fff;
+		white-space: nowrap;
+		text-align: center;
+		font-size: 14px;
+		border-radius: 2px;
+		cursor: pointer;
+		background: #1E9FFF;
+		overflow: hidden;
+		cursor: pointer;
+	}
+	
+	.filebtn .file {
+		border: #1E9FFF 1px solid;
+		height: 38px;
+		position: absolute;
+		left: 0px;
+		top: 0px;
+		opacity: 0;
+		cursor: pointer;
+	}
+</style>
+<script src="./layui.js"></script>
+<script src="./js/wb.js"></script>
+<script src="./js/pinyin4js.js"></script>
+<script src="./js/pinyin_dict_withtone.js"></script>
+<script src="./js/pinyinUtil.js"></script>
+<script src="./js/cryptojs.js"></script>
+
+
+<body>
+
+	<fieldset class="layui-elem-field layui-field-title" style="margin-top: 1px;">
+		<legend>Kei工具</legend>
+	</fieldset>
+	<div class="layui-tab layui-tab-brief" lay-filter="tab1">
+		<ul class="layui-tab-title">
+			<li class="layui-this">随机字符串</li>
+			<li>颜色处理</li>
+			<li>五笔拼音</li>
+			<li>简繁转换</li>
+			<li>大写金额</li>
+			<li>字符加密</li>
+			<li>图片base64</li>
+			<li>更多</li>
+
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+
+				<form class="layui-form" lay-filter="example" action="">
+					<div class="layui-form-item"> <label class="layui-form-label">组合方式</label>
+						<div class="layui-input-block">
+							<input type="checkbox" name="Let" title="字母" checked>
+							<input type="checkbox" name="Num" title="数字">
+							<input type="checkbox" name="Pun" title="符号">
+						</div>
+						<div class="layui-form-item"> <label class="layui-form-label">字符长度</label>
+							<div class="layui-input-inline">
+								<input type="text" name="nLen" value="20" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+							</div>
+						</div>
+
+						<div class="layui-input-block">
+							<button type="button" class="layui-btn layui-btn-normal" id="LAY-component-form-getval">确定</button>
+						</div>
+					</div>
+				</form>
+				<div class="layui-bg-gray" style="padding: 10px;">
+					<div class="layui-row layui-col-space15">
+						<div class="layui-col-md6">
+							<div class="layui-panel">
+								<div style="padding: 50px 20px;" id='see'>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="layui-tab-item">
+
+				<form class="layui-form" lay-filter="colorp" action="">
+					<div class="layui-form-item">
+						<div class="layui-input-inline" style="width: 120px;">
+							<input type="text" name="mycolor" value="" placeholder="选择>/输入颜色" class="layui-input" id="col-form-input">
+						</div>
+						<div class="layui-inline">
+							<div id="col-form"></div>
+						</div>
+						<div class="layui-inline">
+							<button type="button" class="layui-btn layui-btn-normal" id="Col-component-form-getval">查找</button>
+						</div>
+						<div class="layui-row">
+							<div class="layui-col-md3" id="color1"></div>
+							<div class="layui-col-md3" id="color2"></div>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-row">
+							<div class="layui-col-md6">
+								<div class="layui-inline" style="width: 120px;">
+									<input type="text" name="color16" value="" placeholder="16进制颜色" class="layui-input" id="col16-form-input">
+								</div>
+
+								<div class="layui-inline">
+									<button type="button" class="layui-btn layui-btn-primary layui-border-blue" id="to16">
+                                        <i class="layui-icon layui-icon-left"></i>
+                                    </button>
+								</div>
+								<div class="layui-inline">
+									<button type="button" class="layui-btn layui-btn-primary layui-border-blue" id="torgb">
+                                        <i class="layui-icon layui-icon-right"></i>
+                                    </button>
+								</div>
+
+								<div class="layui-inline" style="width: 130px;">
+									<input type="text" name="colorgb" value="" placeholder="rgb颜色" class="layui-input" id="colrgb-form-input">
+								</div>
+							</div>
+							<div class="layui-col-md6"></div>
+						</div>
+					</div>
+				</form>
+
+			</div>
+			<div class="layui-tab-item">
+
+				<form class="layui-form layui-form-pane" lay-filter="pinyin" action="">
+					<div class="layui-form-item layui-form-text">
+						<label class="layui-form-label">输入汉字</label>
+						<div class="layui-input-block">
+							<textarea name="hanzs" placeholder="请输入" class="layui-textarea"></textarea>
+						</div>
+					</div>
+					<div class="layui-form-item" pane>
+						<label class="layui-form-label">选择</label>
+						<div class="layui-input-block">
+							<input type="radio" name="wubi" value="五笔" title="五笔86">
+							<input type="radio" name="wubi" value="拼音" title="拼音" checked>
+							<input type="radio" name="wubi" value="多音字" title="多音字">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<button type="button" class="layui-btn layui-btn-normal" id="pywb">确定</button>
+						</div>
+					</div>
+				</form>
+				<div class="layui-row layui-col-space15">
+					<div class="layui-col-md6">
+						<div class="layui-panel">
+							<div style="padding: 30px;" id="seepy">
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="layui-tab-item">
+				<form class="layui-form" lay-filter="convertcn" action="">
+					<div class="layui-form-item layui-form-text">
+						<label class="layui-form-label">文本</label>
+						<div class="layui-input-block">
+							<textarea name="ccntxt" placeholder="请输入内容" class="layui-textarea"></textarea>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">选择</label>
+						<div class="layui-input-block">
+							<input type="radio" name="convt" value="简繁" title="简转繁" checked>
+							<input type="radio" name="convt" value="繁简" title="繁转简">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<button type="button" class="layui-btn layui-btn-normal" id="ccnbtn">确定</button>
+						</div>
+					</div>
+				</form>
+				<div class="layui-row layui-col-space15">
+					<div class="layui-col-md6">
+						<div class="layui-panel">
+							<div style="padding: 30px;" id="seeccn">
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="layui-tab-item">
+				<form class="layui-form" lay-filter="numcapt" action="">
+					<div class="layui-form-item">
+						<label class="layui-form-label">输入</label>
+						<div class="layui-input-inline">
+							<input type="text" name="numtxt" placeholder="请输入" lay-verify="required" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<button type="button" class="layui-btn layui-btn-normal" id="numcbtn">确定</button>
+						</div>
+					</div>
+				</form>
+				<div class="layui-row layui-col-space15">
+					<div class="layui-col-md6">
+						<div class="layui-panel">
+							<div style="padding: 30px;" id="seenumc">
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="layui-tab-item">
+				<form class="layui-form" lay-filter="cryptst" action="">
+					<div class="layui-form-item layui-form-text">
+						<label class="layui-form-label">文本</label>
+						<div class="layui-input-block">
+							<textarea name="cryptxt" placeholder="请输入内容" class="layui-textarea"></textarea>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">输入key</label>
+						<div class="layui-input-block">
+							<input type="text" name="cryptkey" placeholder="请输入key" lay-verify="required" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<button type="button" class="layui-btn layui-btn-normal" id="cryptbtn">加密</button>
+							<button type="button" class="layui-btn layui-btn-normal" id="decryptbtn">解密</button>
+						</div>
+					</div>
+				</form>
+				<div class="layui-row layui-col-space15">
+					<div class="layui-col-md6">
+						<div class="layui-panel">
+							<div style="padding: 30px;" id="seecrypt">
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="layui-tab-item">
+				<form class="layui-form" lay-filter="imgb64" action="">
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<div class="filebtn" id="seltpic">
+								选图片
+								<input type="file" class="file" id="basefi" onchange="readb64()">
+							</div>
+						</div>
+					</div>
+				</form>
+				<div class="layui-row">
+					<div class="layui-col-md8">
+						<div class="layui-panel">
+							<div style="padding: 30px;" id="seeb64">
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="layui-tab-item">
+				<div class="layui-btn-container">
+					<button type="button" class="layui-btn" id="qrdbtn">生成/识别二维码</button>
+					<button type="button" class="layui-btn" id="cnamebtn">生成名字</button>
+					<button type="button" class="layui-btn" id="pdf2pbtn">pdf转图片</button>
+					<button type="button" class="layui-btn" id="sheetbtn">表格</button>
+					<button type="button" class="layui-btn" id="chartbtn">图表</button>
+					<button type="button" class="layui-btn" id="timelbtn">时间线</button>
+					<button type="button" class="layui-btn" id="imageebtn">图片处理</button>
+					<button type="button" class="layui-btn" id="laohlbtn">老黄历</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<script>
+		// 
+        function randomstr(length, str) {
+            var result = '';
+            for (var i = length; i > 0; --i)
+                result += str[Math.floor(Math.random() * str.length)];
+            return result;
+        }
+        // 16转rgb
+        function set16ToRgb(str) {
+            var reg = /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/;
+            if (!reg.test(str)) { return; }
+            let newStr = (str.toLowerCase()).replace(/\#/g, '')
+            let len = newStr.length;
+            if (len == 3) {
+                let t = ''
+                for (var i = 0; i < len; i++) {
+                    t += newStr.slice(i, i + 1).concat(newStr.slice(i, i + 1));
+                }
+                newStr = t;
+            }
+            let arr = []; //将字符串分隔，两个两个的分隔
+            for (var i = 0; i < 6; i = i + 2) {
+                let s = newStr.slice(i, i + 2);
+                arr.push(parseInt("0x" + s));
+            }
+            return 'rgb(' + arr.join(",") + ')';
+        }
+
+        function setRgbTo16(str) {
+            let reg = /^(rgb|RGB)/;
+            if (!reg.test(str)) { return; }
+            var arr = str.slice(4, str.length - 1).split(",");
+            let color = '#';
+            for (var i = 0; i < arr.length; i++) {
+                var t = Number(arr[i]).toString(16)
+                if (t == "0") {   //如果为“0”的话，需要补0操作,否则只有5位数
+                    t = t + "0"
+                }
+                color += t;
+            }
+            return color;
+        }
+
+        function toChineseNum(n) {
+            if (n === 0)
+                return "零";
+            if (!/^(0|[1-9]\d*)(\.\d+)?$/.test(n))
+                return "";
+            var unit = "仟佰拾亿仟佰拾万仟佰拾元角分", str = "";
+            n += "00";
+            var p = n.indexOf('.');
+            if (p >= 0)
+                n = n.substring(0, p) + n.substr(p + 1, 2);
+            unit = unit.substr(unit.length - n.length);
+            for (var i = 0; i < n.length; i++)
+                str += '零壹贰叁肆伍陆柒捌玖'.charAt(n.charAt(i)) + unit.charAt(i);
+            return str.replace(/零(仟|佰|拾|角)/g, "零").replace(/(零)+/g, "零").replace(/零(万|亿|元)/g, "$1").replace(/(亿)万/g, "$1$2").replace(/^元零?|零分/g, "").replace(/元$/g, "元整");
+        }
+
+
+
+
+        layui.use(['form', 'layer', 'element', 'colorpicker'], function () {
+            var form = layui.form
+                , layer = layui.layer
+                // , layedit = layui.layedit
+                , layer = layui.layer
+                , element = layui.element
+                , colorpicker = layui.colorpicker;
+                // , upload = layui.upload
+                // , laydate = layui.laydate;
+            // element.render();
+            // form.render();
+
+
+            var see = document.getElementById('see');
+
+            layui.$('#LAY-component-form-getval').on('click', function () {
+                var data = form.val('example');
+                // var dateform = JSON.stringify(data)
+                // alert(JSON.stringify(data));
+                var stra = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+                var strb = '0123456789';
+                var strc = '!#$%&*+-=?@^_~';
+                var strs = '';
+                var lens = 0;
+
+                if (data['nLen']) {
+                    lens = Number(data['nLen']);
+                    if ((lens % 1 === 0) && (lens > 0)) {
+
+                    } else {
+                        lens = 0;
+                        layer.alert('输入正整数！', { icon: 5 });
+                    }
+
+                } else {
+                    lens = 0;
+                    layer.alert('输入字符长度！', { icon: 5 });
+                }
+
+                if (data['Let'] || data['Num'] || data['Pun']) {
+
+                    if (data['Let']) {
+                        strs = stra;
+
+                    }
+                    if (data['Num']) {
+                        strs = strb;
+                    }
+
+                    if (data['Pun']) {
+                        strs = strc;
+                    }
+
+                    if (data['Let'] && data['Num']) {
+                        strs = stra + strb;
+                    }
+                    if (data['Let'] && data['Pun']) {
+                        strs = stra + strc;
+                    }
+                    if (data['Num'] && data['Pun']) {
+                        strs = strb + strc;
+                    }
+                    if (data['Let'] && data['Num'] && data['Pun']) {
+                        strs = stra + strb + strc;
+                    }
+
+                } else {
+                    layer.alert('最少选择一种组合！', { icon: 5 });
+                }
+
+                var rstr1 = randomstr(lens, strs);
+                var rstr2 = randomstr(lens, strs);
+                if (rstr1.indexOf("undefined") == -1) {
+                    see.innerHTML = "<textarea >" + rstr1 + "</textarea ><textarea  class='lia'>" + rstr2 + "</textarea >";
+                } else {
+                    see.innerHTML = "";
+                }
+
+
+            });
+
+            // 
+            colorpicker.render({
+                elem: '#col-form'  //绑定元素
+                , predefine: true
+                , colors: ['#F00', '#0F0', '#00F', 'rgb(255, 69, 0)', 'rgba(255, 69, 0, 0.5)']
+                , color: '#2d9d7c'
+                , done: function (color) {
+                    form.val("colorp", {
+                        "mycolor": color
+                    });
+                    document.getElementById('color2').style.background = "";
+                    document.getElementById('color1').style.background = color;
+                }
+            });
+
+            layui.$('#Col-component-form-getval').on('click', function () {
+                var coldata = form.val('colorp');
+                if (coldata['mycolor']) {
+                    document.getElementById('color1').style.background = "";
+                    document.getElementById('color2').style.background = "";
+                    document.getElementById('color2').style.background = coldata['mycolor'];
+                } else {
+                    document.getElementById('color2').style.background = "";
+                    layer.alert('输入颜色代码！', { icon: 5 });
+                }
+
+
+            })
+
+            layui.$('#to16').on('click', function () {
+                var coldata = form.val('colorp');
+                if (coldata['colorgb']) {
+                    var co16 = setRgbTo16(coldata['colorgb']);
+                    form.val('colorp', {
+                        "color16": co16
+                    })
+
+                }
+            })
+            layui.$('#torgb').on('click', function () {
+                var coldata = form.val('colorp');
+                if (coldata['color16']) {
+                    var corgb = set16ToRgb(coldata['color16']);
+                    form.val('colorp', {
+                        "colorgb": corgb
+                    })
+                }
+
+            })
+            // 
+            var seepy = document.getElementById('seepy');
+            layui.$('#pywb').on('click', function () {
+                var pydata = form.val('pinyin');
+
+                if (pydata['wubi']) {
+                    if (pydata['hanzs']) {
+                        if (pydata['wubi'] == "拼音") {
+                            let pystr1 = PinyinHelper.convertToPinyinString(pydata['hanzs'], ' ', PinyinFormat.WITHOUT_TONE);
+                            let pystr2 = PinyinHelper.convertToPinyinString(pydata['hanzs'], ' ', PinyinFormat.WITH_TONE_MARK);
+                            // let pystr = pyarr.join("，");
+                            seepy.innerHTML = pystr1 + "<p>" + pystr2;
+
+                        }
+
+                        if (pydata['wubi'] == "多音字") {
+                            let pyarr = pinyinUtil.getPinyin(pydata['hanzs'], ' ', true, true);
+                            let pystr = pyarr.join("，");
+                            seepy.innerHTML = pystr;
+
+                        }
+
+                        if (pydata['wubi'] == "五笔") {
+                            let wbstr = wubiCode(pydata['hanzs']);
+                            seepy.innerHTML = wbstr;
+                        }
+
+                    } else {
+                        seepy.innerHTML = "";
+                        layer.alert('请输入！', { icon: 5 });
+                    }
+                }
+            })
+
+            // 
+            // var seeqr = document.getElementById('seeqr');
+            // layui.$('#qrbtn').on('click', function () {
+            //     let qrdata = form.val('qrform');
+            //     seeqr.innerHTML = "";
+            //     qrsrc.style.display = "none";
+            //     if (qrdata['qrstr']) {
+            //         let qrcd = new QRCode("seeqr", {
+            //             text: qrdata['qrstr'],
+            //             width: 300,
+            //             height: 300,
+            //             colorDark: "#000000",
+            //             colorLight: "#ffffff",
+            //             correctLevel: QRCode.CorrectLevel.H
+            //         });
+            //     } else {
+            //         layer.alert('请输入！', { icon: 5 });
+            //     }
+
+
+            // })
+
+            // 
+            var seeccn = document.querySelector("#seeccn");
+            layui.$('#ccnbtn').on('click', function () {
+                var ccndata = form.val('convertcn');
+                seeccn.innerHTML = "";
+                if (ccndata['ccntxt']) {
+                    if (ccndata['convt'] == "简繁") {
+                        let cnstr = ChineseHelper.convertToTraditionalChinese(ccndata['ccntxt']);
+                        seeccn.innerHTML = cnstr;
+                    }
+                    if (ccndata['convt'] == "繁简") {
+                        let cnstr = ChineseHelper.convertToSimplifiedChinese(ccndata['ccntxt']);
+                        seeccn.innerHTML = cnstr;
+                    }
+
+                } else {
+                    layer.alert('请输入！', { icon: 5 });
+                }
+            });
+            // 
+            var seenum = document.querySelector("#seenumc");
+            layui.$('#numcbtn').on('click', function () {
+                var numdata = form.val('numcapt');
+                seenum.innerHTML = "";
+                if (numdata['numtxt']) {
+                    let numstr = toChineseNum(numdata['numtxt']);
+                    seenum.innerHTML = numstr
+                } else {
+                    layer.alert('请输入！', { icon: 5 });
+                }
+            })
+            // 
+            var seecrypt = document.querySelector("#seecrypt");
+            layui.$('#cryptbtn').on('click', function () {
+                var cryptdata = form.val('cryptst');
+                seecrypt.innerHTML = "";
+
+                if (cryptdata['cryptxt']) {
+                    let cryptst = CryptoJS.enc.Utf8.parse(cryptdata['cryptxt']);
+                    if (cryptdata['cryptkey']) {
+                        let keys = CryptoJS.enc.Utf8.parse(CryptoJS.MD5(cryptdata['cryptkey']).toString());
+                        let iv = CryptoJS.enc.Utf8.parse(CryptoJS.MD5(keys).toString().substr(0, 16));
+                        let encrypted = CryptoJS.AES.encrypt(cryptst, keys, {
+                            iv: iv,
+                            mode: CryptoJS.mode.CBC,
+                            padding: CryptoJS.pad.Pkcs7
+                        });
+
+                        seecrypt.innerHTML = encrypted.toString();
+
+                    } else {
+                        layer.alert('请输入key！', { icon: 5 });
+                    }
+                } else {
+                    layer.alert('请输入！', { icon: 5 });
+                }
+            })
+            layui.$('#decryptbtn').on('click', function () {
+                var cryptdata = form.val('cryptst');
+                seecrypt.innerHTML = "";
+                if (cryptdata['cryptxt']) {
+                    let cryptst = cryptdata['cryptxt'];
+                    if (cryptdata['cryptkey']) {
+                        let keys = CryptoJS.enc.Utf8.parse(CryptoJS.MD5(cryptdata['cryptkey']).toString());
+                        let iv = CryptoJS.enc.Utf8.parse(CryptoJS.MD5(keys).toString().substr(0, 16));
+                        let decrypted = CryptoJS.AES.decrypt(cryptst, keys, {
+                            iv: iv,
+                            mode: CryptoJS.mode.CBC,
+                            padding: CryptoJS.pad.Pkcs7
+                        });
+
+                        seecrypt.innerHTML = decrypted.toString(CryptoJS.enc.Utf8);
+
+                    } else {
+                        layer.alert('请输入key！', { icon: 5 });
+                    }
+                } else {
+                    layer.alert('请输入！', { icon: 5 });
+                }
+            })
+
+            // 
+            layui.$('#qrdbtn').on('click', function () {
+                window.open("./pages/qrcodes.html");
+            })
+            layui.$('#cnamebtn').on('click', function () {
+                window.open("./pages/radname.html");
+            })
+            layui.$('#pdf2pbtn').on('click', function () {
+                window.open("./pages/pdf2pic.html");
+            })
+            layui.$('#sheetbtn').on('click', function () {
+                window.open("./pages/sheetx.html");
+            })
+            layui.$('#chartbtn').on('click', function () {
+                window.open("./pages/chartso.html");
+            })
+            layui.$('#timelbtn').on('click', function () {
+                window.open("./pages/timeline.html");
+            })
+            layui.$('#imageebtn').on('click', function () {
+                window.open("./pages/imgedt.html");
+            })
+            layui.$('#laohlbtn').on('click', function () {
+                window.open("./pages/laohl.html");
+            })
+
+            // console.log(layui.form);
+
+
+        });
+
+
+        // b64
+
+        const seeb64 = document.querySelector("#seeb64");
+        const b64sr = document.querySelector("#basefi");
+        if (typeof FileReader == 'undefined') {
+            seeb64.InnerHTML = "<p>你的浏览器不支持FileReader接口！</p>";
+            //使选择控件不可操作 
+            b64sr.setAttribute("disabled", "disabled");
+        }
+        function readb64() {
+            let f1 = document.querySelector("#basefi").files[0];
+            console.log(f1);
+            if (!/image\/\w+/.test(f1.type)) {
+                layer.alert('这个需要图片！', { icon: 5 });
+                return;
+            }
+            seeb64.innerHTML = "";
+            let reader = new FileReader();
+            //将文件以Data URL形式读入页面 
+            reader.readAsDataURL(f1);
+            reader.onload = function (e) {
+                seeb64.innerHTML = "<textarea rows='20'>" + this.result + "</textarea >";
+            }
+
+        }
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>老黄历</title>
+	<link rel="stylesheet" href="../css/layui.css">
+</head>
+<script src="../layui.js"></script>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/lunar.js"></script>
+<style>
+	#times table td {
+		border: 1px solid #ccc;
+		padding: 6px;
+		text-align: center;
+	}
+
+	#sc1 table td {
+		border: 1px solid #ccc;
+		padding: 8px;
+		text-align: center;
+	}
+
+	#gz1 table td {
+		border: 1px solid #ccc;
+		padding: 16px;
+		text-align: center;
+	}
+
+	#times table tr:nth-child(even) {
+		background: #eee;
+	}
+
+	#lhlist .layui-col-md2 {
+		font-weight: bold;
+	}
+</style>
+
+<body>
+	<div class="layui-row" style="padding: 30px;">
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 1px;">
+			<legend>老黄历</legend>
+		</fieldset>
+		<div class="layui-row">
+			<div class="layui-col-md3">
+				<div class="layui-inline" id="fmdate"></div>
+			</div>
+			<div class="layui-col-md9">
+				<div id="ywkm"></div>
+				<div id="ywfes"></div>
+			</div>
+		</div>
+		<div class="layui-row" style="margin-top: 20px;" id="lhlist">
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">公历</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="c">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">农历</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="b">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">佛历</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="foto">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">道历</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="tao">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">年</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="a">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">月</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="a1">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">日</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="a2">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">儒略日</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="a3">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">月名</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="m">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">月相</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="yuexiang">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">物候</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="wuhou">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">三元九运</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="syjy">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">治水</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="zhishui">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">分饼</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="fenbing">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">耕田</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="gengtian">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">得金</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="dejin">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">日禄</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="rilu">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">六曜</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="liuyao">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">彭祖百忌</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="d">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">每日宜忌</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="yj">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">吉神宜趋</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="js">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">凶煞宜忌</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="xs">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">相冲</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="e">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">岁煞</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="f">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">星宿</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="g">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">星宿歌诀</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="g1">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">贵神方位</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="h">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">喜神方位</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="i">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">福神方位</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="i1">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">财神方位</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="i2">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">本月胎神</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="i3">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">今日胎神</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="i4">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">太岁方位</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="i5">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">值星</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="j">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">十二天神</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="k">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">空亡所值</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="xun">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">九星</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="jiuxing">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">九星歌诀</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="jiuxing-song">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">上一节气</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="p">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">下一节气</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="n">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">节日/纪念日</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="x">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">数九</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="shuJiu">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-md2">
+					<div class="layui-panel">
+						<div style="padding: 10px;">三伏</div>
+					</div>
+				</div>
+				<div class="layui-col-md10">
+					<div class="layui-panel">
+						<div style="padding: 10px;" id="fu">
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="layui-row" style="margin-top: 30px;">
+			<div class="layui-row" id="times"></div>
+		</div>
+		<div class="layui-row" style="margin-top:30px;">
+			<fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">
+				<legend>时辰对照表</legend>
+			</fieldset>
+			<div class="layui-row" id="sc1">
+				<table>
+					<tr>
+						<td>子时</td>
+						<td>丑时</td>
+						<td>寅时</td>
+						<td>卯时</td>
+						<td>辰时</td>
+						<td>巳时</td>
+					</tr>
+					<tr>
+						<td>23:00-00:59</td>
+						<td>01:00-02:59</td>
+						<td>03:00-04:59</td>
+						<td>05:00-06:59</td>
+						<td>07:00-08:59</td>
+						<td>09:00-10:59</td>
+					</tr>
+					<tr>
+						<td>午时</td>
+						<td>未时</td>
+						<td>申时</td>
+						<td>酉时</td>
+						<td>戌时</td>
+						<td>亥时</td>
+					</tr>
+					<tr>
+						<td>11:00-12:59</td>
+						<td>13:00-14:59</td>
+						<td>15:00-16:59</td>
+						<td>17:00-18:59</td>
+						<td>19:00-20:59</td>
+						<td>21:00-22:59</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="layui-row" style="margin-top:30px;">
+			<fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">
+				<legend>六十甲子对照表</legend>
+			</fieldset>
+			<div class="layui-row" id="gz1">
+				<table>
+
+					<tr>
+						<td>序号</td>
+						<td>干支</td>
+						<td>序号</td>
+						<td>干支</td>
+						<td>序号</td>
+						<td>干支</td>
+						<td>序号</td>
+						<td>干支</td>
+						<td>序号</td>
+						<td>干支</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>甲子</td>
+						<td>13</td>
+						<td>丙子</td>
+						<td>25</td>
+						<td>戊子</td>
+						<td>37</td>
+						<td>庚子</td>
+						<td>49</td>
+						<td>壬子</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>乙丑</td>
+						<td>14</td>
+						<td>丁丑</td>
+						<td>26</td>
+						<td>己丑</td>
+						<td>38</td>
+						<td>辛丑</td>
+						<td>50</td>
+						<td>癸丑</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>丙寅</td>
+						<td>15</td>
+						<td>戊寅</td>
+						<td>27</td>
+						<td>庚寅</td>
+						<td>39</td>
+						<td>壬寅</td>
+						<td>51</td>
+						<td>甲寅</td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td>丁卯</td>
+						<td>16</td>
+						<td>己卯</td>
+						<td>28</td>
+						<td>辛卯</td>
+						<td>40</td>
+						<td>癸卯</td>
+						<td>52</td>
+						<td>乙卯</td>
+					</tr>
+					<tr>
+						<td>5</td>
+						<td>戊辰</td>
+						<td>17</td>
+						<td>庚辰</td>
+						<td>29</td>
+						<td>壬辰</td>
+						<td>41</td>
+						<td>甲辰</td>
+						<td>53</td>
+						<td>丙辰</td>
+					</tr>
+					<tr>
+						<td>6</td>
+						<td>己巳</td>
+						<td>18</td>
+						<td>辛巳</td>
+						<td>30</td>
+						<td>癸巳</td>
+						<td>42</td>
+						<td>乙巳</td>
+						<td>54</td>
+						<td>丁巳</td>
+					</tr>
+					<tr>
+						<td>7</td>
+						<td>庚午</td>
+						<td>19</td>
+						<td>壬午</td>
+						<td>31</td>
+						<td>甲午</td>
+						<td>43</td>
+						<td>丙午</td>
+						<td>55</td>
+						<td>戊午</td>
+					</tr>
+					<tr>
+						<td>8</td>
+						<td>辛未</td>
+						<td>20</td>
+						<td>癸未</td>
+						<td>32</td>
+						<td>乙未</td>
+						<td>44</td>
+						<td>丁未</td>
+						<td>56</td>
+						<td>己未</td>
+					</tr>
+					<tr>
+						<td>9</td>
+						<td>壬申</td>
+						<td>21</td>
+						<td>甲申</td>
+						<td>33</td>
+						<td>丙申</td>
+						<td>45</td>
+						<td>戊申</td>
+						<td>57</td>
+						<td>庚申</td>
+					</tr>
+					<tr>
+						<td>10</td>
+						<td>癸酉</td>
+						<td>22</td>
+						<td>乙酉</td>
+						<td>34</td>
+						<td>丁酉</td>
+						<td>46</td>
+						<td>己酉</td>
+						<td>58</td>
+						<td>辛酉</td>
+					</tr>
+					<tr>
+						<td>11</td>
+						<td>甲戌</td>
+						<td>23</td>
+						<td>丙戌</td>
+						<td>35</td>
+						<td>戊戌</td>
+						<td>47</td>
+						<td>庚戌</td>
+						<td>59</td>
+						<td>壬戌</td>
+					</tr>
+					<tr>
+						<td>12</td>
+						<td>乙亥</td>
+						<td>24</td>
+						<td>丁亥</td>
+						<td>36</td>
+						<td>己亥</td>
+						<td>48</td>
+						<td>辛亥</td>
+						<td>60</td>
+						<td>癸亥</td>
+					</tr>
+
+				</table>
+			</div>
+		</div>
+
+
+
+	</div>
+</body>
+<script>
+	layui.use(['laydate', 'element'], function () {
+		var laydate = layui.laydate
+			, element = layui.element;
+
+		laydate.render({
+			elem: '#fmdate',
+			position: 'static',
+			btns: ['now'],
+			change: function (value, due) {
+				// console.log(JSON.stringify(due))
+				let y1 = due['year'];
+				let m1 = due['month'];
+				let d1 = due['date'];
+				setTimeout(function () {
+					compute(y1, m1, d1);
+					getwkmore(value, y1);
+				}, 100);
+
+			},
+			done: function (value, due) {
+				// console.log(JSON.stringify(due))
+				let y1 = due['year'];
+				let m1 = due['month'];
+				let d1 = due['date'];
+				setTimeout(function () {
+					compute(y1, m1, d1);
+					getwkmore(value, y1);
+				}, 100);
+
+			}
+		});
+	})
+
+	var renderTime = function (lunar) {
+		var l = lunar.getTimes();
+		var s = '<table><tbody>';
+
+		s += '<tr><td width="9%">时辰</td>';
+		for (var i = 0, j = l.length; i < j; i++) {
+			s += '<td width="7%">' + l[i].getGanZhi() + '</td>';
+		}
+		s += '</tr>';
+
+		s += '<tr><td>时刻</td>';
+		for (var i = 0, j = l.length; i < j; i++) {
+			s += '<td width="7%">' + l[i].getMinHm() + '-' + l[i].getMaxHm() + '</td>';
+		}
+		s += '</tr>';
+
+		s += '<tr><td>天神</td>';
+		for (var i = 0, j = l.length; i < j; i++) {
+			s += '<td>' + l[i].getTianShen() + '</td>';
+		}
+		s += '</tr>';
+
+		s += '<tr><td>黑黄道</td>';
+		for (var i = 0, j = l.length; i < j; i++) {
+			s += '<td>' + l[i].getTianShenType() + '</td>';
+		}
+		s += '</tr>';
+
+		s += '<tr><td>吉凶</td>';
+		for (var i = 0, j = l.length; i < j; i++) {
+			s += '<td>' + l[i].getTianShenLuck() + '</td>';
+		}
+		s += '</tr>';
+
+		s += '<tr><td>冲</td>';
+		for (var i = 0, j = l.length; i < j; i++) {
+			s += '<td>' + l[i].getChongDesc() + '</td>';
+		}
+		s += '</tr>';
+
+		s += '<tr><td>煞</td>';
+		for (var i = 0, j = l.length; i < j; i++) {
+			s += '<td>' + l[i].getSha() + '</td>';
+		}
+		s += '</tr>';
+
+		s += '<tr><td>宜</td>';
+		for (var i = 0, j = l.length; i < j; i++) {
+			s += '<td>' + l[i].getYi().join(' ') + '</td>';
+		}
+		s += '</tr>';
+
+		s += '<tr><td>忌</td>';
+		for (var i = 0, j = l.length; i < j; i++) {
+			s += '<td>' + l[i].getJi().join(' ') + '</td>';
+		}
+		s += '</tr>';
+
+		s += '</tbody></table>';
+		$('#times').html(s);
+	};
+
+	var compute = function (year, month, day) {
+		try {
+			var year = year;
+			var month = month;
+			var day = day;
+			if (year < 1 || year > 9999) {
+				return;
+			}
+			if (month < 1 || month > 12) {
+				return;
+			}
+			if (day < 1 || day > 31) {
+				return;
+			}
+			year = parseInt(year, 10);
+			month = parseInt(month, 10);
+			day = parseInt(day, 10);
+			var s = Solar.fromYmd(year, month, day);
+			var h = HolidayUtil.getHoliday(year, month, day);
+			var d = s.getLunar();
+			var foto = d.getFoto();
+			var tao = d.getTao();
+			$('#foto').html(foto.getYearInChinese() + '年 ' + foto.getMonthInChinese() + '月 ' + foto.getDayInChinese());
+			$('#tao').html(tao.getYearInChinese() + '年 ' + tao.getMonthInChinese() + '月 ' + tao.getDayInChinese());
+			$('#yuexiang').html(d.getYueXiang());
+			$('#a').html(d.getYearInGanZhi() + '年 属' + d.getYearShengXiao() + ' ' + d.getYearNaYin());
+			$('#a1').html(d.getMonthInGanZhi() + '月 属' + d.getMonthShengXiao() + ' ' + d.getMonthNaYin());
+			$('#a2').html(d.getDayInGanZhi() + '日 属' + d.getDayShengXiao() + ' ' + d.getDayNaYin());
+			$('#a3').html(s.getJulianDay());
+			$('#b').html(d.getYearInChinese() + '年 ' + d.getMonthInChinese() + '月 ' + d.getDayInChinese() + ' (阴历)');
+			$('#c').html(s.getYear() + '年 ' + s.getMonth() + '月 ' + s.getDay() + '日 星期' + s.getWeekInChinese() + ' ' + s.getXingZuo() + '座 (阳历)');
+			$('#m').html(d.getSeason());
+			$('#d').html(d.getPengZuGan() + ' ' + d.getPengZuZhi());
+			$('#yj').html('<span style="color:green">宜</span>：' + d.getDayYi().join(' ') + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red">忌</span>：' + d.getDayJi().join(' '));
+			$('#e').html(d.getDayShengXiao() + '日 冲' + d.getChongDesc());
+			$('#js').html(d.getDayJiShen().join(' '));
+			$('#xs').html(d.getDayXiongSha().join(' '));
+			$('#f').html(d.getSha());
+			$('#g').html(d.getGong() + '方' + d.getXiu() + d.getZheng() + d.getAnimal() + ' (' + d.getXiuLuck() + ')');
+			$('#g1').html(d.getXiuSong());
+			$('#h').html('阳贵神：' + d.getPositionYangGuiDesc() + ' 阴贵神：' + d.getPositionYinGuiDesc());
+			$('#i').html(d.getPositionXiDesc());
+			$('#i1').html(d.getPositionFuDesc());
+			$('#i2').html(d.getPositionCaiDesc());
+			$('#i3').html(d.getMonthPositionTai());
+			$('#i4').html(d.getDayPositionTai());
+			$('#i5').html(d.getDayPositionTaiSuiDesc());
+
+			var fs = [];
+			var f = d.getFestivals();
+			if (f) {
+				for (var i = 0, j = f.length; i < j; i++) {
+					fs.push(f[i]);
+				}
+			}
+			f = d.getOtherFestivals();
+			if (f) {
+				for (var i = 0, j = f.length; i < j; i++) {
+					fs.push(f[i]);
+				}
+			}
+			f = s.getFestivals();
+			if (f) {
+				for (var i = 0, j = f.length; i < j; i++) {
+					fs.push(f[i]);
+				}
+			}
+			f = s.getOtherFestivals();
+			if (f) {
+				for (var i = 0, j = f.length; i < j; i++) {
+					fs.push(f[i]);
+				}
+			}
+			f = foto.getFestivals();
+			if (f) {
+				for (var i = 0, j = f.length; i < j; i++) {
+					fs.push(f[i]);
+				}
+			}
+			f = tao.getFestivals();
+			if (f) {
+				for (var i = 0, j = f.length; i < j; i++) {
+					fs.push(f[i]);
+				}
+			}
+			if (h) {
+				fs.push(h.getName() + (h.isWork() ? '调休' : '放假'));
+			}
+			$('#x').html(fs.join('、') ? fs.join('、') : 'N');
+			$('#j').html(d.getZhiXing());
+			$('#k').html(d.getDayTianShen() + '(' + d.getDayTianShenType() + ') ' + d.getDayTianShenLuck());
+			var p = d.getPrevJieQi(), n = d.getNextJieQi();
+			$('#p').html(p.getName() + ' ' + p.getSolar().toYmdHms() + ' 星期' + p.getSolar().getWeekInChinese());
+			$('#n').html(n.getName() + ' ' + n.getSolar().toYmdHms() + ' 星期' + n.getSolar().getWeekInChinese());
+
+			var jiuxing = d.getDayNineStar();
+			$('#jiuxing').html(jiuxing.getNumber() + jiuxing.getColor() + ' - ' + jiuxing.getNameInTaiYi() + '星(' + jiuxing.getWuXing() + ') - ' + jiuxing.getTypeInTaiYi());
+			$('#jiuxing-song').html(jiuxing.getSongInTaiYi());
+
+			$('#xun').html('年：' + d.getYearXunKong() + '&nbsp;&nbsp;&nbsp;月：' + d.getMonthXunKong() + '&nbsp;&nbsp;&nbsp;日：' + d.getDayXunKong());
+
+			var shuJiu = d.getShuJiu();
+
+			$('#shuJiu').html(shuJiu ? shuJiu.toFullString() : 'N');
+
+			var fu = d.getFu();
+			$('#fu').html(fu ? fu.toFullString() : 'N');
+
+			// 物候
+			$('#wuhou').html(d.getHou() + '，' + d.getWuHou());
+
+			// 六曜
+			$('#liuyao').html(d.getLiuYao());
+
+			// 日禄
+			$('#rilu').html(d.getDayLu());
+
+			var lunarYear = LunarYear.fromYear(d.getYear());
+			//三元九运
+			$('#syjy').html(lunarYear.getYuan() + ' ' + lunarYear.getYun());
+			// 治水
+			$('#zhishui').html(lunarYear.getZhiShui());
+			// 分饼
+			$('#fenbing').html(lunarYear.getFenBing());
+			// 耕田
+			$('#gengtian').html(lunarYear.getGengTian());
+			// 得金
+			$('#dejin').html(lunarYear.getDeJin());
+
+			renderTime(d);
+		} catch (e) {
+			console.log(e);
+		}
+	};
+	// 
+	function getwkmore(d, y) {
+
+		if (d) {
+			var dt1 = SolarWeek.fromDate(new Date(d), 1);
+			var wkstr = `${y}年第<span style='color:#dc683e;font-size:1.4em;'>${dt1.getIndexInYear()}</span>周`;
+		} else {
+			dt1 = SolarWeek.fromDate(new Date(), 1);
+			wkstr = `${y}年第<span style='color:#dc683e;font-size:1.4em;'>${dt1.getIndexInYear()}</span>周`;
+		}
+		if (y) {
+			if (SolarUtil.isLeapYear(y)) {
+				var leapy = " <span style='color:#dc683e;font-size:1.4em;'>闰</span>年";
+			} else {
+				leapy = "";
+			}
+			var ydays = ` 有<span style='color:#dc683e;font-size:1.4em;'>${SolarUtil.getDaysOfYear(y)}</span>天`;
+			var leapy1 = LunarYear.fromYear(y);
+			if (leapy1.getLeapMonth()) {
+				var leapm = ` 农历闰<span style='color:#dc683e;font-size:1.4em;'>${leapy1.getLeapMonth()}</span>月`;
+			} else {
+				leapm = "";
+			}
+
+			var dt2 = d.split('-');
+
+
+			var smonth = SolarMonth.fromDate(new Date(d));
+			var mdays = smonth.getDays();
+
+			var fesarr1 = [];
+			var fesarr2 = [];
+			for (let j = 0; j < mdays.length; j++) {
+
+				if (mdays[j].getFestivals().length > 0) {
+					fesarr1.push(
+						mdays[j].toString()
+					)
+					fesarr1.push(
+						`<span style='color:#dc683e;font-size:1.4em;'>${mdays[j].getFestivals()}</span>`
+					)
+					fesarr1.push(
+						"；"
+					)
+				}
+				if (mdays[j].getLunar().getFestivals().length > 0) {
+					fesarr2.push(
+						mdays[j].toString()
+					)
+					fesarr2.push(
+						mdays[j].getLunar().toString()
+					)
+					fesarr2.push(
+						`<span style='color:#dc683e;font-size:1.4em;'>${mdays[j].getLunar().getFestivals()}</span>`
+					)
+					fesarr2.push(
+						"；"
+					)
+				}
+
+			}
+			if (fesarr1.length > 0) {
+				var festr1 = fesarr1.join();
+			}
+			if (fesarr2.length > 0) {
+				var festr2 = fesarr2.join();
+			}
+			var festrs1 = festr1 ? festr1.replace(/,/g, "") : "";
+			var festrs2 = festr2 ? festr2.replace(/,/g, "") : "";
+
+			var leafes = ` 本月${festrs1}${festrs2}`;
+
+
+
+
+			var datofy = ` 是${y}年的第<span style='color:#dc683e;font-size:1.4em;'>${SolarUtil.getDaysInYear(parseInt(dt2[0]), parseInt(dt2[1]), parseInt(dt2[2]))}</span>天`;
+		}
+
+
+		$('#ywkm').html(wkstr + leapy + ydays + datofy + leapm);
+		$('#ywfes').html(leafes)
+	}
+
+	var today = Solar.fromDate(new Date());
+	var year1 = today.getYear();
+	var month1 = today.getMonth();
+	var day1 = today.getDay();
+	var due1 = `${year1}-${month1}-${day1}`;
+	setTimeout(function () {
+		compute(year1, month1, day1);
+		getwkmore(due1, year1);
+	}, 10);
+
+</script>
+
+</html>

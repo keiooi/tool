@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表格</title>
+</head>
+<link rel='stylesheet' href='../lkysht/plugins/css/pluginsCss.css' />
+<link rel='stylesheet' href='../lkysht/plugins/plugins.css' />
+<link rel='stylesheet' href='../lkysht/css/luckysheet.css' />
+<link rel='stylesheet' href='../lkysht/assets/iconfont/iconfont.css' />
+<link rel="stylesheet" href="../css/layui.css">
+<script src="../layui.js"></script>
+<script src="../lkysht/plugins/js/plugin.js"></script>
+<script src="../lkysht/luckysheet.umd.js"></script>
+<style>
+    .right-div {
+        position: relative;
+        left: 90%;
+    }
+</style>
+
+<body>
+    <div id="luckysheet" style="margin:0px;padding:0px;position:absolute;width:90%;height:100%;left: 0px;top: 0px;">
+    </div>
+    <div class="right-div">
+        <div class="layui-tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">数组</li>
+                <li>数组+对象</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-card">
+                        <div class="layui-card-header">快速得到数组说明</div>
+                        <div class="layui-card-body">
+                            选中-右键-复制为-<br>
+                            选择对应的几维数组
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="layui-card">
+                        <div class="layui-card-header">快速得到数组+对象说明</div>
+                        <div class="layui-card-body">
+                            选中-右键-复制为-<br>
+                            json首行为标题，第一行作为标题。<br>
+                            json无标题，会将列名作为标题。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        $(function () {
+            //配置项
+            var options = {
+                container: 'luckysheet', //luckysheet为容器id
+                title: 'sheet Demo',
+                lang: 'zh',
+            }
+            luckysheet.create(options)
+
+            layui.use('element', function () {
+                var element = layui.element;
+
+                //…
+            });
+
+        })
+
+    </script>
+</body>
+
+</html>
